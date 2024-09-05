@@ -1,5 +1,5 @@
 """
-Game Name: Nerdle
+Game Name: Wordly
 Description: Player guesses letters in a 5 letter word
 Author: Zachary Coe
 Date: 2024-09-04
@@ -9,15 +9,7 @@ Date: 2024-09-04
 import random
 
 
-title_art = r"""
- __   __     ______     ______     _____     __         ______    
-/\ "-.\ \   /\  ___\   /\  == \   /\  __-.  /\ \       /\  ___\   
-\ \ \-.  \  \ \  __\   \ \  __<   \ \ \/\ \ \ \ \____  \ \  __\   
- \ \_\\"\_\  \ \_____\  \ \_\ \_\  \ \____-  \ \_____\  \ \_____\ 
-  \/_/ \/_/   \/_____/   \/_/ /_/   \/____/   \/_____/   \/_____/ 
-"""                                                                  
 
-print(f"\n                         Welcome to...{title_art}")
 
 words_list = ["abbey", "about", "above", "abuse", "actor", "acute", "adapt", "admit", "adobe", "adopt",
     "adult", "after", "again", "agent", "aging", "agony", "agree", "ahead", "aisle", "alarm",
@@ -120,3 +112,19 @@ words_list = ["abbey", "about", "above", "abuse", "actor", "acute", "adapt", "ad
     "wives", "woman", "women", "world", "worry", "worse", "worst", "worth", "would", "wound",
     "woven", "wrist", "write", "wrong", "wrote", "yacht", "yield", "young", "yours", "youth"]
 
+def main():
+  #Title card at intro to game
+  title_art = r"""
+   __     __     ______     ______     _____     __         __  __    
+  /\ \  _ \ \   /\  __ \   /\  == \   /\  __-.  /\ \       /\ \_\ \   
+  \ \ \/ ".\ \  \ \ \/\ \  \ \  __<   \ \ \/\ \ \ \ \____  \ \____ \  
+   \ \__/".~\_\  \ \_____\  \ \_\ \_\  \ \____-  \ \_____\  \/\_____\ 
+    \/_/   \/_/   \/_____/   \/_/ /_/   \/____/   \/_____/   \/_____/                                                                     
+"""                                                                  
+  print(f"\n                         Welcome to...{title_art}")
+  print("\n      You are going to guess 5-letter words and be given hints\n               based on the letters that are correct!\n                            Have fun!")
+
+
+
+if __name__ == "__main__":
+  main()
