@@ -25,6 +25,8 @@ class Word_Game:
   \/_/   \/_/   \/_____/   \/_/ /_/   \/____/   \/_____/   \/_____/                                                                     
 	"""
 	#List of words for game
+	test_words = ["fleck", "fleck", "fleck"]
+
 	words_list = ["abbey", "about", "above", "abuse", "actor", "acute", "adapt", "admit", "adobe", "adopt",
     "adult", "after", "again", "agent", "aging", "agony", "agree", "ahead", "aisle", "alarm",
     "album", "alert", "alien", "align", "alike", "alive", "alley", "allow", "alloy", "alone",
@@ -132,8 +134,11 @@ class Word_Game:
 		self.current_guess = None
 		self.current_game_word = None
 		self.guess_number = 0
-		print(f"\n                         Welcome to...{Word_Game.title_art}\n      You are going to guess 5-letter words and be given hints\n               based on the letters that are correct!\n\n                            Have fun!\n")
+		print(f"\n                           Welcome to...{Word_Game.title_art}\n      You are going to guess 5-letter words and be given hints\n               based on the letters that are correct!\n\n                            Have fun!\n")
 
+	def choose_word2(self):
+		self.current_game_word = Word_Game.test_words.pop(random.randint(0, len(Word_Game.test_words) - 1))
+	
 	def choose_word(self):
 		self.current_game_word = Word_Game.words_list.pop(random.randint(0, len(Word_Game.words_list) - 1))
 
@@ -150,6 +155,14 @@ class Word_Game:
 			except ValueError:
 				print(f"Input must be {WORD_LENGTH} letters.")
 	
+	def modify_guess(self):
+		spaced_word = ""
+		for letter in self.current_guess:
+			spaced_word = spaced_word + " "
+			spaced_word = spaced_word + letter
+		return spaced_word
+
+
 	def compare_words(self):
 		word_result = ""
 		for n in range(len(self.current_guess)):
@@ -196,25 +209,27 @@ class Player:
 		# print()
 		return
 
+
 def main():
 	#Start game
 	wordly_player = Player()
 	wordly = Word_Game()
-
-	# print(f"{GREEN_SQUARE}, {YELLOW_SQUARE}, {RED_SQUARE}")
 	
 	#Play till quits out
-	while wordly_player.play:
+	while len(Word_Game.test_words) > 0 and wordly_player.play:
 		#Game selects random word to guess
-		wordly.choose_word()
-		while wordly.guess_number < 5 or wordly.match(wordly_player): 
+		wordly.choose_word2()
+		while wordly.guess_number < 5 and not wordly.match(wordly_player): 
 			wordly.new_guess()
-			print(f"Result:   {wordly.compare_words()}")
+			print(f"Your guess:{wordly.modify_guess()}")
+			print(f"Result:    {wordly.compare_words()}")
 			wordly.match(wordly_player)
 
 		print(f"Current score: {wordly_player.score}")
 		#Check if play again
 		wordly_player.set_play()
+		
+	
 
 
 if __name__ == "__main__":
