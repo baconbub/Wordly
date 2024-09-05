@@ -8,8 +8,20 @@ Date: 2024-09-04
 
 import random
 
+WORD_LENGTH = 5
 
-WORDS_LIST = ["abbey", "about", "above", "abuse", "actor", "acute", "adapt", "admit", "adobe", "adopt",
+    	
+class Word_Game:
+	#Title card at intro to game
+	title_art = r"""
+ __     __     ______     ______     _____     __         __  __    
+/\ \  _ \ \   /\  __ \   /\  == \   /\  __-.  /\ \       /\ \_\ \   
+\ \ \/ ".\ \  \ \ \/\ \  \ \  __<   \ \ \/\ \ \ \ \____  \ \____ \  
+ \ \__/".~\_\  \ \_____\  \ \_\ \_\  \ \____-  \ \_____\  \/\_____\ 
+  \/_/   \/_/   \/_____/   \/_/ /_/   \/____/   \/_____/   \/_____/                                                                     
+	"""
+	#List of words for game
+	words_list = ["abbey", "about", "above", "abuse", "actor", "acute", "adapt", "admit", "adobe", "adopt",
     "adult", "after", "again", "agent", "aging", "agony", "agree", "ahead", "aisle", "alarm",
     "album", "alert", "alien", "align", "alike", "alive", "alley", "allow", "alloy", "alone",
     "along", "aloud", "alpha", "altar", "alter", "amber", "amend", "amino", "among", "ample",
@@ -110,31 +122,40 @@ WORDS_LIST = ["abbey", "about", "above", "abuse", "actor", "acute", "adapt", "ad
     "wives", "woman", "women", "world", "worry", "worse", "worst", "worth", "would", "wound",
     "woven", "wrist", "write", "wrong", "wrote", "yacht", "yield", "young", "yours", "youth"]
 
+	def __init__(self):
+		#Sets word list and intros game
+		# self.words = words
+		self.current_guess = None
+		print(f"\n                            Welcome to...{Word_Game.title_art}\n      You are going to guess 5-letter words and be given hints\n               based on the letters that are correct!\n                            Have fun!\n")
 
-class Word_Game:
-  #Title card at intro to game
-  title_art = r"""
-   __     __     ______     ______     _____     __         __  __    
-  /\ \  _ \ \   /\  __ \   /\  == \   /\  __-.  /\ \       /\ \_\ \   
-  \ \ \/ ".\ \  \ \ \/\ \  \ \  __<   \ \ \/\ \ \ \ \____  \ \____ \  
-   \ \__/".~\_\  \ \_____\  \ \_\ \_\  \ \____-  \ \_____\  \/\_____\ 
-    \/_/   \/_/   \/_____/   \/_/ /_/   \/____/   \/_____/   \/_____/                                                                     
-  """                                                                  
-  
-  def __init__(self, words):
-    #Sets word list and intros to game
-    self.words = words
-    print(f"\n                         Welcome to...{Word_Game.title_art}")
-    print("\n      You are going to guess 5-letter words and be given hints\n               based on the letters that are correct!\n                            Have fun!")
-  
+	def choose_word(self):
+		return Word_Game.words_list.pop(random.randint(0, len(Word_Game.words_list) - 1))
+
+	def	new_guess(self):
+		while True:
+			try:
+				self.current_guess = input("Your guess: ").lower()
+				if (len(self.current_guess) == WORD_LENGTH) and self.current_guess.isalpha():
+					break
+				else:
+					raise ValueError()
+			except ValueError:
+				print(f"Input must be {WORD_LENGTH} letters.")
+      
 
 
+
+
+class Player:
+	def __init__(self):
+		self.score = 0
 
 
 def main():
-  wordly = Word_Game(WORDS_LIST)
-
+	wordly = Word_Game()
+	wordly.choose_word()
+	wordly.new_guess()
 
 
 if __name__ == "__main__":
-  main()
+	main()
