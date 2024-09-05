@@ -131,13 +131,15 @@ class Word_Game:
 		# self.words = words
 		self.current_guess = None
 		self.current_game_word = None
-		print(f"\n                            Welcome to...{Word_Game.title_art}\n      You are going to guess 5-letter words and be given hints\n               based on the letters that are correct!\n\n                            Have fun!\n")
+		self.guess_number = 0
+		print(f"\n                         Welcome to...{Word_Game.title_art}\n      You are going to guess 5-letter words and be given hints\n               based on the letters that are correct!\n\n                            Have fun!\n")
 
 	def choose_word(self):
 		self.current_game_word = Word_Game.words_list.pop(random.randint(0, len(Word_Game.words_list) - 1))
 
 	def	new_guess(self):
 		self.current_guess = None
+		self.guess_number += 1
 		while True:
 			try:
 				self.current_guess = input("Your guess: ").lower()
@@ -149,7 +151,22 @@ class Word_Game:
 				print(f"Input must be {WORD_LENGTH} letters.")
 	
 	def compare_words(self):
-		return
+		word_result = ""
+		for n in range(len(self.current_guess)):
+			if self.current_guess[n] == self.current_game_word[n]:
+				word_result += GREEN_SQUARE
+			elif self.current_guess[n] in self.current_game_word:
+				word_result += YELLOW_SQUARE
+			else:
+				word_result += RED_SQUARE
+		return word_result
+	
+	def match(self, player):
+		if self.compare_words == f"{GREEN_SQUARE}{GREEN_SQUARE}{GREEN_SQUARE}{GREEN_SQUARE}{GREEN_SQUARE}":
+			player.score += 1
+			return True
+		else:
+			return False
 
 
 class Player:
@@ -176,20 +193,26 @@ class Player:
 			self.play = False
 	
 	def print_score(self):
-		print()
+		# print()
+		return
 
 def main():
 	#Start game
-	wordly = Word_Game()
 	wordly_player = Player()
+	wordly = Word_Game()
 
 	# print(f"{GREEN_SQUARE}, {YELLOW_SQUARE}, {RED_SQUARE}")
 	
 	#Play till quits out
 	while wordly_player.play:
+		#Game selects random word to guess
 		wordly.choose_word()
-		wordly.new_guess()
+		while wordly.guess_number < 5 or wordly.match(wordly_player): 
+			wordly.new_guess()
+			print(f"Result:   {wordly.compare_words()}")
+			wordly.match(wordly_player)
 
+		print(f"Current score: {wordly_player.score}")
 		#Check if play again
 		wordly_player.set_play()
 
