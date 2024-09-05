@@ -9,9 +9,7 @@ Date: 2024-09-04
 import random
 
 
-
-
-words_list = ["abbey", "about", "above", "abuse", "actor", "acute", "adapt", "admit", "adobe", "adopt",
+WORDS_LIST = ["abbey", "about", "above", "abuse", "actor", "acute", "adapt", "admit", "adobe", "adopt",
     "adult", "after", "again", "agent", "aging", "agony", "agree", "ahead", "aisle", "alarm",
     "album", "alert", "alien", "align", "alike", "alive", "alley", "allow", "alloy", "alone",
     "along", "aloud", "alpha", "altar", "alter", "amber", "amend", "amino", "among", "ample",
@@ -112,7 +110,8 @@ words_list = ["abbey", "about", "above", "abuse", "actor", "acute", "adapt", "ad
     "wives", "woman", "women", "world", "worry", "worse", "worst", "worth", "would", "wound",
     "woven", "wrist", "write", "wrong", "wrote", "yacht", "yield", "young", "yours", "youth"]
 
-def main():
+
+class Word_Game:
   #Title card at intro to game
   title_art = r"""
    __     __     ______     ______     _____     __         __  __    
@@ -120,9 +119,20 @@ def main():
   \ \ \/ ".\ \  \ \ \/\ \  \ \  __<   \ \ \/\ \ \ \ \____  \ \____ \  
    \ \__/".~\_\  \ \_____\  \ \_\ \_\  \ \____-  \ \_____\  \/\_____\ 
     \/_/   \/_/   \/_____/   \/_/ /_/   \/____/   \/_____/   \/_____/                                                                     
-"""                                                                  
-  print(f"\n                         Welcome to...{title_art}")
-  print("\n      You are going to guess 5-letter words and be given hints\n               based on the letters that are correct!\n                            Have fun!")
+  """                                                                  
+  
+  def __init__(self, words):
+    #Sets word list and intros to game
+    self.words = words
+    print(f"\n                         Welcome to...{Word_Game.title_art}")
+    print("\n      You are going to guess 5-letter words and be given hints\n               based on the letters that are correct!\n                            Have fun!")
+  
+
+
+
+
+def main():
+  wordly = Word_Game(WORDS_LIST)
 
 
 
