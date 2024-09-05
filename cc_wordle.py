@@ -8,7 +8,11 @@ Date: 2024-09-04
 
 import random
 
+
 WORD_LENGTH = 5
+GREEN_SQUARE = "\U0001F7E9"
+YELLOW_SQUARE = "\U0001F7E8"
+RED_SQUARE = "\U0001F7E5"
 
     	
 class Word_Game:
@@ -126,12 +130,14 @@ class Word_Game:
 		#Sets word list and intros game
 		# self.words = words
 		self.current_guess = None
-		print(f"\n                            Welcome to...{Word_Game.title_art}\n      You are going to guess 5-letter words and be given hints\n               based on the letters that are correct!\n                            Have fun!\n")
+		self.current_game_word = None
+		print(f"\n                            Welcome to...{Word_Game.title_art}\n      You are going to guess 5-letter words and be given hints\n               based on the letters that are correct!\n\n                            Have fun!\n")
 
 	def choose_word(self):
-		return Word_Game.words_list.pop(random.randint(0, len(Word_Game.words_list) - 1))
+		self.current_game_word = Word_Game.words_list.pop(random.randint(0, len(Word_Game.words_list) - 1))
 
 	def	new_guess(self):
+		self.current_guess = None
 		while True:
 			try:
 				self.current_guess = input("Your guess: ").lower()
@@ -141,20 +147,51 @@ class Word_Game:
 					raise ValueError()
 			except ValueError:
 				print(f"Input must be {WORD_LENGTH} letters.")
-      
-
-
+	
+	def compare_words(self):
+		return
 
 
 class Player:
 	def __init__(self):
 		self.score = 0
+		self.play = True
 
+	def play_again(self):
+		while True:
+			try:
+				play_check = input("Play again? (y/n): ").lower()
+				if play_check == "y" or play_check == "n":
+					return play_check
+				else:
+					raise ValueError()
+			except ValueError:
+				print(f"Please type y or n.")
+		  
+	def set_play(self):
+		y_or_n = self.play_again()
+		if y_or_n == "y":
+			self.play = True
+		else:
+			self.play = False
+	
+	def print_score(self):
+		print()
 
 def main():
+	#Start game
 	wordly = Word_Game()
-	wordly.choose_word()
-	wordly.new_guess()
+	wordly_player = Player()
+
+	# print(f"{GREEN_SQUARE}, {YELLOW_SQUARE}, {RED_SQUARE}")
+	
+	#Play till quits out
+	while wordly_player.play:
+		wordly.choose_word()
+		wordly.new_guess()
+
+		#Check if play again
+		wordly_player.set_play()
 
 
 if __name__ == "__main__":
