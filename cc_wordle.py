@@ -137,6 +137,7 @@ class Word_Game:
 
 	#Test function with test words
 	def choose_word2(self):
+		self.guess_number = 0
 		self.current_game_word = Word_Game.test_words.pop(random.randint(0, len(Word_Game.test_words) - 1))
 	
 	def choose_word(self):
@@ -243,6 +244,7 @@ def main():
 			if wordly.match(wordly_player):
 				break
 
+		print(f"\nWord was: {wordly.current_game_word}\n")
 		print(f"Current score: {wordly_player.score}")
 		#Check if play again
 		wordly_player.set_play()
