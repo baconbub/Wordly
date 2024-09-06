@@ -131,15 +131,16 @@ class Word_Game:
 	def __init__(self):
 		#Sets word list and intros game
 		# self.words = words
-		self.current_guess = None
-		self.current_game_word = None
-		self.guess_number = 0
+		self.current_guess = ""
+		self.current_game_word = ""
 		print(f"\n                           Welcome to...{Word_Game.title_art}\n      You are going to guess 5-letter words and be given hints\n               based on the letters that are correct!\n\n                            Have fun!\n")
 
+	#Test function with test words
 	def choose_word2(self):
 		self.current_game_word = Word_Game.test_words.pop(random.randint(0, len(Word_Game.test_words) - 1))
 	
 	def choose_word(self):
+		self.guess_number = 0
 		self.current_game_word = Word_Game.words_list.pop(random.randint(0, len(Word_Game.words_list) - 1))
 
 	def	new_guess(self):
@@ -164,22 +165,39 @@ class Word_Game:
 
 
 	def compare_words(self):
-		word_result = ""
+		word_result = [None] * WORD_LENGTH
+		yellow_checker = list(self.current_game_word)
+
+		#Check all greens and setup for yellow/red check
 		for n in range(len(self.current_guess)):
 			if self.current_guess[n] == self.current_game_word[n]:
-				word_result += GREEN_SQUARE
-			elif self.current_guess[n] in self.current_game_word:
-				word_result += YELLOW_SQUARE
-			else:
-				word_result += RED_SQUARE
-		return word_result
+				word_result[n] = GREEN_SQUARE
+				yellow_checker[n] = None
+
+		#If letter in yellow_checker but not word, make spot yellow 
+		for n in range(len(self.current_guess)):
+			if word_result[n] is None:
+				if self.current_guess[n] in yellow_checker:
+					word_result[n] = YELLOW_SQUARE
+					yellow_checker[yellow_checker.index(self.current_guess[n])] = None
+			#if not in yellow checker or word, make red	
+				else:
+					word_result[n] = RED_SQUARE
+		
+		# print(word_result)
+		return "".join(word_result)
 	
 	def match(self, player):
-		if self.compare_words == f"{GREEN_SQUARE}{GREEN_SQUARE}{GREEN_SQUARE}{GREEN_SQUARE}{GREEN_SQUARE}":
+		if RED_SQUARE not in self.compare_words() and YELLOW_SQUARE not in self.compare_words():
 			player.score += 1
 			return True
 		else:
 			return False
+	
+	def print_result(self):
+		print(f"Result:    {self.modify_guess()}")
+		print(f"           {self.compare_words()}")
+		print(f"{5 - self.guess_number} guesses left!")
 
 
 class Player:
@@ -199,8 +217,7 @@ class Player:
 				print(f"Please type y or n.")
 		  
 	def set_play(self):
-		y_or_n = self.play_again()
-		if y_or_n == "y":
+		if self.play_again() == "y":
 			self.play = True
 		else:
 			self.play = False
@@ -214,22 +231,25 @@ def main():
 	#Start game
 	wordly_player = Player()
 	wordly = Word_Game()
-	
+	list_length = len(Word_Game.words_list)
+
 	#Play till quits out
 	while len(Word_Game.test_words) > 0 and wordly_player.play:
 		#Game selects random word to guess
-		wordly.choose_word2()
-		while wordly.guess_number < 5 and not wordly.match(wordly_player): 
+		wordly.choose_word()
+		while wordly.guess_number < 5: 
 			wordly.new_guess()
-			print(f"Your guess:{wordly.modify_guess()}")
-			print(f"Result:    {wordly.compare_words()}")
-			wordly.match(wordly_player)
+			wordly.print_result()
+			if wordly.match(wordly_player):
+				break
 
 		print(f"Current score: {wordly_player.score}")
 		#Check if play again
 		wordly_player.set_play()
 		
-	
+	if len(Word_Game.test_words) <= 0:
+		print(f"\nSomehow you went through all {list_length} words!")
+	print("\nThanks for playing!")
 
 
 if __name__ == "__main__":
